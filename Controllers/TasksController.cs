@@ -90,15 +90,43 @@ public IActionResult Edit(TodoItem item)
 }
 
 
-public IActionResult Delete(int id) => View(_context.TodoItems.Find(id));
+public IActionResult Delete(int id)
+{
+	var idValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	if (!int.TryParse(idValue, out var userId))
+	{
+		return RedirectToAction("Login", "Account");
+	}
+
+	var task = _context.TodoItems.Find(id);
+	if (task == null || task.UserId != userId)
+	{
+		return NotFound();
+	}
+
+	return View(task);
+}
 
 
 [HttpPost, ActionName("Delete")]
+[ValidateAntiForgeryToken]
 public IActionResult DeleteConfirmed(int id)
 {
-var task = _context.TodoItems.Find(id);
-if (task != null) { _context.TodoItems.Remove(task); _context.SaveChanges(); }
-return RedirectToAction("Index");
+	var idValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	if (!int.TryParse(idValue, out var userId))
+	{
+		return RedirectToAction("Login", "Account");
+	}
+
+	var task = _context.TodoItems.Find(id);
+	if (task == null || task.UserId != userId)
+	{
+		return NotFound();
+	}
+
+	_context.TodoItems.Remove(task);
+	_context.SaveChanges();
+	return RedirectToAction("Index");
 }
 }
 }
