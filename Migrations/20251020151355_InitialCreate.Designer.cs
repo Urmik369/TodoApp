@@ -4,21 +4,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TodoApp.Data;
+using TodoApp.Models;
 
 #nullable disable
 
 namespace TodoApp.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20251020062756_Init")]
-    partial class Init
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20251020151355_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
             modelBuilder.Entity("TodoApp.Models.TodoItem", b =>
                 {
@@ -37,7 +37,6 @@ namespace TodoApp.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
@@ -62,7 +61,6 @@ namespace TodoApp.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -73,7 +71,7 @@ namespace TodoApp.Migrations
             modelBuilder.Entity("TodoApp.Models.TodoItem", b =>
                 {
                     b.HasOne("TodoApp.Models.User", "User")
-                        .WithMany("Tasks")
+                        .WithMany("TodoItems")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -83,7 +81,7 @@ namespace TodoApp.Migrations
 
             modelBuilder.Entity("TodoApp.Models.User", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("TodoItems");
                 });
 #pragma warning restore 612, 618
         }

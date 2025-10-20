@@ -7,7 +7,7 @@ using TodoApp.Models;
 
 #nullable disable
 
-namespace TodoApp.Migrations.ApplicationDb
+namespace TodoApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -15,7 +15,7 @@ namespace TodoApp.Migrations.ApplicationDb
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
             modelBuilder.Entity("TodoApp.Models.TodoItem", b =>
                 {
