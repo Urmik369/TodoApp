@@ -1,29 +1,52 @@
 # TodoApp
 
 ## Description
-A simple ASP.NET Core MVC Todo application that supports user accounts, sessions, and CRUD operations for tasks. It uses SQLite as the database and Entity Framework Core for data access.
+A full-featured task management application built with ASP.NET Core MVC and Entity Framework Core. This application allows users to create, manage, and track their todo items with secure user authentication and authorization.
+
+### Features
+- User Authentication & Registration
+- Create, Read, Update, and Delete (CRUD) operations for todo items
+- Secure data access (users can only manage their own tasks)
+- Responsive design using Bootstrap
+- SQLite database for data storage
 
 ## Installation
-Requirements:
-- .NET 8 SDK installed (https://dotnet.microsoft.com/en-us/download)
-- (Optional) A recent code editor like Visual Studio or VS Code
+### Prerequisites
+- .NET 8 SDK ([Download here](https://dotnet.microsoft.com/en-us/download))
+- Visual Studio 2022 or Visual Studio Code (recommended)
+- Git (for version control)
 
-Steps:
-1. Clone or copy the project to your machine.
-2. Open a PowerShell terminal in the project root (where `TodoApp.csproj` is located).
+### Steps
+1. Clone the repository:
+   ```powershell
+   git clone https://github.com/Urmik369/TodoApp.git
+   cd TodoApp
+   ```
 
-## How to run the project (PowerShell)
-Build the project:
+2. Restore dependencies:
+   ```powershell
+   dotnet restore
+   ```
 
-```powershell
-dotnet build "c:\Users\URMIK\TodoApp\TodoApp.csproj"
-```
+3. Apply database migrations:
+   ```powershell
+   dotnet ef database update
+   ```
 
-Run the project:
+## How to Run the Project
+1. Open PowerShell in the project directory (where `TodoApp.csproj` is located)
 
-```powershell
-dotnet run --project "c:\Users\URMIK\TodoApp\TodoApp.csproj"
-```
+2. Build the project:
+   ```powershell
+   dotnet build
+   ```
+
+3. Run the application:
+   ```powershell
+   dotnet run
+   ```
+
+4. Open your browser and navigate to the URL shown in the terminal (typically https://localhost:7260 or http://localhost:5051)
 
 Visit the app in your browser at the URL shown in the terminal (usually `http://localhost:5048`).
 
