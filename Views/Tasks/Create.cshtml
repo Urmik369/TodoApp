@@ -1,0 +1,22 @@
+@model TodoApp.Models.TodoItem
+@{
+ViewData["Title"] = "Add Task";
+}
+<div class="card p-4 mx-auto" style="max-width: 500px;">
+<h3 class="mb-3">Add Task</h3>
+<form asp-action="Create" method="post">
+<div class="mb-3">
+<label class="form-label">Title</label>
+<input type="text" class="form-control" asp-for="Title" required />
+</div>
+<div class="mb-3">
+<label class="form-label">Description</label>
+<textarea class="form-control" asp-for="Description"></textarea>
+</div>
+<div class="mb-3">
+<label class="form-label">Due Date</label>
+<input type="date" class="form-control" asp-for="DueDate" />
+</div>
+<button type="submit" class="btn btn-primary w-100">Save</button>
+</form>
+</div>
