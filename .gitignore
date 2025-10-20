@@ -1,0 +1,33 @@
+# Build artifacts
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+
+# Logs
+*.log
+
+# SQLite DB and journal files
+todo.db
+todo.db-shm
+todo.db-wal
+
+# Rider
+.idea/
+
+# Visual Studio cache
+.vs/
+
+# Publish output
+publish/
+
+# Temporary files
+*.tmp
+*~
