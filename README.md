@@ -23,12 +23,17 @@ A full-featured task management application built with ASP.NET Core MVC and Enti
    cd TodoApp
    ```
 
-2. Restore dependencies:
+2. Install the Entity Framework Core tools (if not already installed):
+   ```powershell
+   dotnet tool install --global dotnet-ef
+   ```
+
+3. Restore dependencies:
    ```powershell
    dotnet restore
    ```
 
-3. Apply database migrations:
+Note: The database will be created automatically when you run the application for the first time. If you want to manually create it, you can run:
    ```powershell
    dotnet ef database update
    ```
