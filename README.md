@@ -55,21 +55,93 @@ Visit the app in your browser at the URL shown in the terminal (usually `http://
 ### Installation Issues
 1. **.NET SDK Version Mismatch**
    - Error: "The current .NET SDK does not support targeting .NET 8.0"
-   - Solution: Download and install .NET 8.0 SDK from [Microsoft's download page](https://dotnet.microsoft.com/download/dotnet/8.0)
-   - Verify installation with: `dotnet --version`
+   - Error: "It was not possible to find any installed .NET Core SDKs"
+   - Error: "NETSDK1045: The current .NET SDK does not support targeting .NET 8.0"
+   - Solutions:
+     1. Check installed .NET versions:
+        ```powershell
+        dotnet --list-sdks
+        dotnet --list-runtimes
+        ```
+     2. Download and install .NET 8.0 SDK from [Microsoft's download page](https://dotnet.microsoft.com/download/dotnet/8.0)
+     3. Verify installation:
+        ```powershell
+        dotnet --version
+        ```
+     4. If multiple SDKs are installed, specify version in global.json:
+        ```powershell
+        dotnet new globaljson --sdk-version 8.0.0
+        ```
+     5. If error persists, repair/reinstall .NET SDK:
+        - Windows: Use "Apps & features" to repair/uninstall
+        - Then install fresh from Microsoft's website
+
+2. **Entity Framework Tools Missing**
+   - Error: "No executable found matching command 'dotnet-ef'"
+   - Error: "The EF Core tools version '8.0.0' is older than the targeted runtime"
+   - Solutions:
+     ```powershell
+     # Install EF Core tools globally
+     dotnet tool uninstall --global dotnet-ef
+     dotnet tool install --global dotnet-ef
+
+     # Verify installation
+     dotnet ef --version
+     ```
+
+3. **SSL Certificate Issues**
+   - Error: "Unable to verify the first certificate" or "SSL connection could not be established"
+   - Solutions:
+     ```powershell
+     # Trust the development certificate
+     dotnet dev-certs https --clean
+     dotnet dev-certs https --trust
+     ```
+     - If using Chrome/Edge, clear browser cache and restart
+     - If using Firefox, manually add security exception
 
 2. **Database Migration Errors**
    - Error: "No migrations found" or "Build failed"
-   - Solution:
+   - Error: "The migration 'XXXXXXXX' has already been applied"
+   - Error: "SQLite Error 1: 'no such table: __EFMigrationsHistory'"
+   - Solutions:
      ```powershell
+     # First, ensure EF tools are installed
      dotnet tool install --global dotnet-ef
-     dotnet ef database update
-     ```
-   - If error persists, try removing the existing database:
-     ```powershell
+
+     # If migrations exist but database is corrupted
      del todo.db
+     del todo.db-shm
+     del todo.db-wal
+     dotnet ef database update
+
+     # If migrations are corrupted
+     dotnet ef migrations remove
+     dotnet ef migrations add InitialCreate
+     dotnet ef database update
+
+     # If still getting errors, complete reset
+     del todo.db*
+     del Migrations\*.cs
+     dotnet ef migrations add InitialCreate
      dotnet ef database update
      ```
+
+3. **Database Connection Errors**
+   - Error: "SQLite Error 14: 'unable to open database file'"
+   - Error: "Microsoft.Data.Sqlite.SqliteException: SQLite Error 8: 'attempt to write a readonly database'"
+   - Solutions:
+     1. Check file permissions:
+        ```powershell
+        # Ensure current user has write permissions
+        icacls . /grant "${env:USERNAME}:(OI)(CI)F"
+        ```
+     2. Check if antivirus is blocking:
+        - Add project folder to exclusions
+        - Temporarily disable real-time protection
+     3. If using network drive:
+        - Move project to local drive
+        - Or configure SQLite for network share
 
 ### Runtime Issues
 1. **Application Won't Start**
