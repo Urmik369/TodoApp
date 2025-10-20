@@ -1,0 +1,38 @@
+Recommended files to include when pushing this project to GitHub (minimal and useful files):
+
+# Project files
+TodoApp.sln
+TodoApp.csproj
+Program.cs
+
+# Source
+Controllers/
+  AccountController.cs
+  HomeController.cs
+  TasksController.cs
+Data/
+  AppDbContext.cs
+Models/
+  ApplicationDbContext.cs
+  TodoItem.cs
+  User.cs
+  ErrorViewModel.cs
+Services/
+  PasswordHelper.cs
+
+# Views (keep full Views folder or at least views used by your controllers)
+Views/
+
+# Static assets
+wwwroot/
+
+# Config and docs
+appsettings.json
+appsettings.Development.json
+README.md
+.gitignore
+
+Notes:
+- Do NOT include `bin/`, `obj/` or the SQLite `todo.db` in the repository. They're already excluded by `.gitignore`.
+- If you prefer a smaller repo, you can remove the full `wwwroot/lib` folder and restore client libs with a package manager (LibMan/npm) or CDN links instead.
+- If you plan to publish to GitHub, consider squashing the initial large commits or creating a fresh repo from the current working tree (we already removed runtime artifacts from tracking).
