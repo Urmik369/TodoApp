@@ -50,21 +50,103 @@ A full-featured task management application built with ASP.NET Core MVC and Enti
 
 Visit the app in your browser at the URL shown in the terminal (usually `http://localhost:5048`).
 
-## Notes & Troubleshooting
-- If you see errors about a locked `TodoApp.exe` when building, ensure no previous `dotnet run` process is still running. Stop it or kill the `TodoApp` process:
+## Common Issues & Troubleshooting
 
-```powershell
-Get-Process -Name TodoApp -ErrorAction SilentlyContinue | Stop-Process -Force
-```
+### Installation Issues
+1. **.NET SDK Version Mismatch**
+   - Error: "The current .NET SDK does not support targeting .NET 8.0"
+   - Solution: Download and install .NET 8.0 SDK from [Microsoft's download page](https://dotnet.microsoft.com/download/dotnet/8.0)
+   - Verify installation with: `dotnet --version`
 
-- If you see data protection / session cookie errors after restarting the app, delete the temporary SQLite files in the project root: `todo.db-shm` and `todo.db-wal` (they will be recreated).
+2. **Database Migration Errors**
+   - Error: "No migrations found" or "Build failed"
+   - Solution:
+     ```powershell
+     dotnet tool install --global dotnet-ef
+     dotnet ef database update
+     ```
+   - If error persists, try removing the existing database:
+     ```powershell
+     del todo.db
+     dotnet ef database update
+     ```
 
-- The app stores the SQLite DB in the project folder as `todo.db`. If you want a fresh database, delete `todo.db` and the `Migrations` can recreate schema on first run if migrations/DB creation are wired.
+### Runtime Issues
+1. **Application Won't Start**
+   - Error: "Address already in use"
+   - Solution: Stop existing instances:
+     ```powershell
+     Get-Process -Name TodoApp -ErrorAction SilentlyContinue | Stop-Process -Force
+     ```
 
-- Add generated files and the database to `.gitignore` to avoid committing runtime artifacts (recommend adding `bin/`, `obj/`, `todo.db*`).
+2. **Login Not Working**
+   - Error: "Invalid login attempt"
+   - Solution: 
+     - Ensure you've registered an account first
+     - Check if database exists and has Users table
+     - Try registering a new account
+     - If issues persist, reset database:
+       ```powershell
+       del todo.db todo.db-shm todo.db-wal
+       dotnet ef database update
+       ```
 
-## Next steps
-- Add automated tests for controller behavior (ownership checks for Edit/Delete).
-- Add a `.gitignore` and CI configuration if you plan to push to a remote repository.
+3. **Session/Cookie Issues**
+   - Error: "Data protection error" or "Unable to validate login"
+   - Solution: Clear temporary database files:
+     ```powershell
+     del todo.db-shm todo.db-wal
+     ```
+   - Stop the application and restart
 
-If you'd like, I can add a `.gitignore` now and commit it.
+4. **Database Locked**
+   - Error: "Database is locked" or "SQLite Error 5"
+   - Solution:
+     ```powershell
+     Get-Process -Name TodoApp -ErrorAction SilentlyContinue | Stop-Process -Force
+     del todo.db-shm todo.db-wal
+     ```
+
+5. **Permission Issues**
+   - Error: "Access denied" or "Cannot create file"
+   - Solution: Run PowerShell as Administrator or ensure write permissions in the project folder
+
+### Data Issues
+1. **Lost Tasks/Data**
+   - The app uses SQLite database stored as `todo.db`
+   - To backup data: Copy `todo.db` to a safe location
+   - To reset database:
+     ```powershell
+     del todo.db*
+     dotnet ef database update
+     ```
+
+### Build Issues
+1. **Compilation Errors**
+   - First try:
+     ```powershell
+     dotnet restore
+     dotnet clean
+     dotnet build
+     ```
+   - If errors persist, check:
+     - .NET SDK version matches (8.0)
+     - All required packages are restored
+     - No syntax errors in modified files
+
+2. **Package Reference Errors**
+   - Solution:
+     ```powershell
+     dotnet restore --force
+     ```
+
+## Support
+If you encounter any other issues:
+1. Ensure all prerequisites are installed
+2. Try cleaning the solution and rebuilding
+3. Check the application logs
+4. Create an issue on the GitHub repository with:
+   - Error message
+   - Steps to reproduce
+   - .NET version (`dotnet --version`)
+   - Operating system
