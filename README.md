@@ -182,7 +182,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.Cookies
 
 # Build and run
 dotnet build
-dotnet ef database
+dotnet ef database update
 or
 dotnet ef database update --context ApplicationDbContext
 dotnet run
