@@ -465,3 +465,124 @@ If you encounter any other problems:
    - Steps to reproduce
    - .NET version (`dotnet --version`)
    - Operating system
+
+## 💡 Development Tips
+
+### Using VS Code Terminal Efficiently
+
+1. **Open multiple terminals:** Click the "+" button in the terminal panel
+2. **Split terminal:** Click the split terminal icon
+3. **Toggle terminal:** Press `` Ctrl+` ``
+
+### Useful VS Code Shortcuts
+
+- `F5` - Start debugging
+- `Ctrl+Shift+B` - Build
+- `Ctrl+` ` - Toggle terminal
+- `Ctrl+P` - Quick file open
+- `Ctrl+Shift+P` - Command palette
+
+### NuGet Package Management in VS Code
+
+**Via Terminal:**
+```bash
+# Add a package
+dotnet add package PackageName
+
+# Remove a package
+dotnet remove package PackageName
+
+# List packages
+dotnet list package
+```
+
+**Via Extension:**
+1. Install "NuGet Package Manager" extension
+2. Press `Ctrl+Shift+P`
+3. Type "NuGet" and select package management option
+
+## 📦 Database Management
+
+### View Database Contents
+
+#### Option 1: Using DB Browser for SQLite (Recommended)
+
+**Step 1: Install DB Browser for SQLite**
+
+If not installed:
+1. Go to https://sqlitebrowser.org/dl/
+2. Download the Windows (64-bit) installer
+3. Install it (next → next → finish)
+
+**Step 2: Open Your Database**
+
+1. Open DB Browser for SQLite
+2. Click **"Open Database"**
+3. Browse to your database file:
+```
+C:\Users\YOUR_USERNAME\TodoApp\todo.db
+```
+Replace `YOUR_USERNAME` with your actual Windows username
+
+4. Click **Open**
+
+**Step 3: View the Data**
+
+- Go to the **"Browse Data"** tab
+- In the Table dropdown, you'll see:
+  - `Users` - All registered users
+  - `TodoItems` - All tasks
+- Select a table to view its records
+
+**Step 4: (Optional) Run SQL Commands**
+
+Go to the **"Execute SQL"** tab to run commands manually:
+
+```sql
+-- View all users
+SELECT * FROM Users;
+
+-- View all todo items
+SELECT * FROM TodoItems;
+
+-- View tasks with user information
+SELECT t.*, u.Username 
+FROM TodoItems t 
+JOIN Users u ON t.UserId = u.Id;
+```
+
+#### Option 2: Using SQLite Viewer Extension in VS Code
+
+1. Install the **SQLite Viewer** extension in VS Code
+2. Open Extensions (`Ctrl+Shift+X`)
+3. Search "SQLite Viewer"
+4. Install it
+5. Right-click `todo.db` → **"Open Database"**
+
+### Backup Database
+
+```bash
+# Windows
+Copy-Item todo.db todo.db.backup
+
+# Linux/Mac
+cp todo.db todo.db.backup
+```
+
+### Reset Database
+
+```bash
+# Delete database
+Remove-Item todo.db* -Force  # Windows
+rm -f todo.db*               # Linux/Mac
+
+# Recreate from migrations
+dotnet ef database update
+```
+
+## 📚 Additional Resources
+
+- [ASP.NET Core Documentation](https://docs.microsoft.com/aspnet/core)
+- [Entity Framework Core Documentation](https://docs.microsoft.com/ef/core)
+- [VS Code C# Documentation](https://code.visualstudio.com/docs/languages/csharp)
+- [.NET CLI Reference](https://docs.microsoft.com/dotnet/core/tools/)
