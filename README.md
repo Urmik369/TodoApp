@@ -132,7 +132,7 @@ dotnet build
 The database will be created automatically on first run, but you can manually create it:
 
 ```bash
-dotnet ef database update
+dotnet ef database update --context ApplicationDbContext
 ```
 
 ### Step 9: Run the Application
@@ -180,7 +180,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.Cookies
 
 # Build and run
 dotnet build
-dotnet ef database update
+dotnet ef database update --context ApplicationDbContext
 dotnet run
 ```
 
